@@ -42,6 +42,8 @@ CORS(app, supports_credentials=True)
 
 
 app.register_blueprint(auth_api)
+app.register_blueprint(public_api)
+app.register_blueprint(user_api)
 
 
 @app.after_request
@@ -52,7 +54,12 @@ def refresh_authorization(response):
     # check to see if jwt needs a refresh
     authorization = request.headers.get("Authorization", "")
     if authorization:
-        token = jwt_refresh(authorization, 5 * 60, 2 * 60 * 60, app.config["jwt_secret"],)
+        token = jwt_refresh(
+            authorization,
+            5 * 60,
+            2 * 60 * 60,
+            app.config["jwt_secret"],
+        )
         if token:
             response.headers["token"] = token
     return response
