@@ -17,7 +17,7 @@
                                 My Studies
                             </h2>
                         </div>
-                        List the studies here...
+                        <StudiesPanel/>
                     </section>
                 </div>
                 </div>
@@ -31,12 +31,14 @@
 <script>
 
 import LoggedinSidebarTemplate from "@/layouts/LoggedinSidebarTemplate";
-
+import StudiesPanel from '@/components/StudiesPanel.vue';
 export default {
     name: "Research",
     components: {
         LoggedinSidebarTemplate,
+        StudiesPanel
     },
+
 };
 </script>
 

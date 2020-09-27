@@ -21,7 +21,7 @@ from peewee import (
     ForeignKeyField,
     IntegerField,
     Model,
-    TextField
+    TextField,
 )
 from playhouse.db_url import connect
 from playhouse.postgres_ext import ArrayField, DateTimeTZField, JSONField
@@ -84,6 +84,16 @@ class Studies(BaseModel):
     description = CharField(1500, null=True)  # TBD what does null mean?
     researcher_email = CharField(100, default="")  # TBD shouldn't this be null instead of default "" if there is no researcher email specified? (will change this anyway)
 
+
+class Enrollments (BaseModel):
+    completed = BooleanField(default=False)
+    user = ForeignKeyField(Users)
+    study = ForeignKeyField(Studies, backref='enrollment')
+    class Meta:
+        indexes = (
+            # create a unique on user/study
+            (('user', 'study'), True),
+        )
 
 if os.getenv("TEST") == "True":
     db.evolve(interactive=False)
